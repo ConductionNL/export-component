@@ -1,6 +1,6 @@
 <?php
 
-// api/src/Controller/BookController.php
+// api/src/Controller/DefaultController.php
 
 namespace App\Controller;
 

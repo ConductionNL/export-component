@@ -13,6 +13,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Serializer\SerializerInterface;
+use Twig_Environment as Environment;
 
 class ExportSubscriber implements EventSubscriberInterface
 {
@@ -20,17 +21,18 @@ class ExportSubscriber implements EventSubscriberInterface
     private $em;
     private $serializer;
 
-    public function __construct(ParameterBagInterface $params, EntityManagerInterface $em, SerializerInterface $serializer)
+    public function __construct(ParameterBagInterface $params, EntityManagerInterface $em, SerializerInterface $serializer, Environment $twig)
     {
         $this->params = $params;
         $this->em = $em;
         $this->serializer = $serializer;
+        $this->templating = $twig;
     }
 
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::VIEW => ['export', EventPriorities::PRE_VALIDATE],
+            KernelEvents::VIEW => ['export', EventPriorities::PRE_SERIALIZE],
         ];
     }
 
@@ -40,7 +42,7 @@ class ExportSubscriber implements EventSubscriberInterface
         $method = $event->getRequest()->getMethod();
         $route = $event->getRequest()->attributes->get('_route');
 
-        if (!$result instanceof Template || $route != 'api_templates_render_template_item' || $method != 'POST') {
+        if (!$result instanceof Export || $route != 'api_exports_render_export_item' || $method != 'GET') {
             return;
         }
 
@@ -53,10 +55,10 @@ class ExportSubscriber implements EventSubscriberInterface
         $variables = array_merge($query, $body);
 
         $template = $this->templating->createTemplate($result->getContent());
-        $reponse = $template->render($variables);
+        $response = $template->render($variables);
 
-        $reponse = new Response(
-            $json,
+        $response = new Response(
+            $response,
             Response::HTTP_OK,
             ['content-type' => $result->getContentType()]
         );

@@ -37,12 +37,14 @@ class SHertogenboschFixtures  extends Fixture
         $export->setDescription('Deze export exporteerd alle verzoeken');
         $export->setContent(file_get_contents(dirname(__FILE__).'/SHertogenbosch/verzoeken-alle.csv.twig', 'r'));
         $export->setContentType('text/csv');
+        $manager->persist($export);
 
         $export = New Export();
         $export->setName('Open verzoeken export');
         $export->setDescription('Deze export exporteerd alle OPENSTAANDE verzoeken');
         $export->setContent(file_get_contents(dirname(__FILE__).'/SHertogenbosch/verzoeken-openstaand.csv.twig', 'r'));
         $export->setContentType('text/csv');
+        $manager->persist($export);
 
         $manager->flush();
     }
