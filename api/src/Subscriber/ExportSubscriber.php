@@ -49,10 +49,10 @@ class ExportSubscriber implements EventSubscriberInterface
         $request = new Request();
 
         /*@todo onderstaande verhaal moet uiteraard wel worden gedocumenteerd in redoc */
-        $query = $request->query->all();
-        $body = json_decode($request->getContent(), true); /*@todo hier zouden we eigenlijk ook xml moeten ondersteunen */
+        $variables = $request->query->all();
+        //$body = json_decode($request->getContent(), true); /*@todo hier zouden we eigenlijk ook xml moeten ondersteunen */
 
-        $variables = array_merge($query, $body);
+        //$variables = array_merge($query, $body);
 
         $template = $this->templating->createTemplate($result->getContent());
         $response = $template->render($variables);

@@ -7,6 +7,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Conduction\CommonGroundBundle\Service\CommonGroundService;
+use Ramsey\Uuid\Uuid;
 
 class SHertogenboschFixtures  extends Fixture
 {
@@ -32,18 +33,24 @@ class SHertogenboschFixtures  extends Fixture
             //return false;
         }
 
+        $id = Uuid::fromString('c1aaf4e2-5581-4260-a933-4aa790ab6170');
         $export = New Export();
         $export->setName('Alle verzoeken export');
         $export->setDescription('Deze export exporteerd alle verzoeken');
         $export->setContent(file_get_contents(dirname(__FILE__).'/SHertogenbosch/verzoeken-alle.csv.twig', 'r'));
         $export->setContentType('text/csv');
         $manager->persist($export);
+        $export->setId($id);
+        $manager->persist($export);
 
+        $id = Uuid::fromString('9e34188d-83e6-463c-89f2-2b4b9a30cebe');
         $export = New Export();
         $export->setName('Open verzoeken export');
         $export->setDescription('Deze export exporteerd alle OPENSTAANDE verzoeken');
         $export->setContent(file_get_contents(dirname(__FILE__).'/SHertogenbosch/verzoeken-openstaand.csv.twig', 'r'));
         $export->setContentType('text/csv');
+        $manager->persist($export);
+        $export->setId($id);
         $manager->persist($export);
 
         $manager->flush();

@@ -1,1 +1,4 @@
-tet, test
+{% set requests = commonground_resource_list({'component':'vrc','type':'requests'})["hydra:member"] %}id,reference,location,status,submitters,properties{% for request in requests %}
+
+{{ request.id|e }},{{ request.reference|e }},{{ request['@id']|e }},{{ request.status|e }},{% if request.submitters is defined %}"{% for submitter in request.submitters %}{{submitter.brp }}{% endfor %}"{% endif %},{% if request.properties is defined %}"{% for property in request.properties %} {# property#} {% endfor %}"{% endif %}
+{% endfor %}
