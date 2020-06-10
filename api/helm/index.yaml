@@ -1,16 +1,29 @@
 apiVersion: v1
 entries:
+  ec:
+  - apiVersion: v1
+    appVersion: V.0.1
+    created: "2020-06-10T05:56:46.84168408Z"
+    description: '&#039;Naast deze JSON rest API is er ook een [graphql](/graphql)
+      interface beschikbaar.&#039;'
+    digest: 5ff92e0288b258ba603903d9f678fd67ed0f18314af38dfc6b216ff94ffe43b8
+    home: ec.zuid-drecht.nl
+    icon: ec.zuid-drecht.nl
+    name: ec
+    urls:
+    - ec-0.1.0.tgz
+    version: 0.1.0
   pc:
   - apiVersion: v1
     appVersion: V.0.1
-    created: "2020-06-04T08:59:13.3271889Z"
+    created: "2020-06-10T05:56:46.864635282Z"
     description: '&#039;Naast deze JSON rest API is er ook een [graphql](/graphql)
       interface beschikbaar.&#039;'
-    digest: 41e391270f36449fab98ba2f332f64a18ead27f0783ab544b5608b71246e34c4
+    digest: 520801b87985665ac2aae2e1d7037952965e5dc53bb5cd0d568470fd45bc66b7
     home: pc.zaakonline.nl
     icon: pc.zaakonline.nl
     name: pc
     urls:
     - pc-0.1.0.tgz
     version: 0.1.0
-generated: "2020-06-04T08:59:13.3217135Z"
+generated: "2020-06-10T05:56:46.811493278Z"
