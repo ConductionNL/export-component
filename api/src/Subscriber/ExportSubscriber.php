@@ -13,6 +13,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Serializer\SerializerInterface;
+use Twig_Environment as Environment;
 
 class ExportSubscriber implements EventSubscriberInterface
 {
@@ -20,70 +21,46 @@ class ExportSubscriber implements EventSubscriberInterface
     private $em;
     private $serializer;
 
-    public function __construct(ParameterBagInterface $params, EntityManagerInterface $em, SerializerInterface $serializer)
+    public function __construct(ParameterBagInterface $params, EntityManagerInterface $em, SerializerInterface $serializer, Environment $twig)
     {
         $this->params = $params;
         $this->em = $em;
         $this->serializer = $serializer;
+        $this->templating = $twig;
     }
 
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::VIEW => ['export', EventPriorities::PRE_VALIDATE],
+            KernelEvents::VIEW => ['export', EventPriorities::PRE_SERIALIZE],
         ];
     }
 
     public function export(GetResponseForControllerResultEvent $event)
     {
         $result = $event->getControllerResult();
-        $id = $event->getRequest()->attributes->get('id');
-        $slug = $event->getRequest()->attributes->get('slug');
-        $contentType = $event->getRequest()->headers->get('accept');
-        if (!$contentType) {
-            $contentType = $event->getRequest()->headers->get('Accept');
-        }
         $method = $event->getRequest()->getMethod();
+        $route = $event->getRequest()->attributes->get('_route');
 
-        // Lats make sure that some one posts correctly
-        if (Request::METHOD_GET !== $method || $event->getRequest()->get('_route') != 'api_applications_get_page_on_slug_collection') {
+        if (!$result instanceof Export || $route != 'api_exports_render_export_item' || $method != 'GET') {
             return;
         }
 
-        // Lets set a return content type
-        switch ($contentType) {
-            case 'application/json':
-                $renderType = 'json';
-                break;
-            case 'application/ld+json':
-                $renderType = 'jsonld';
-                break;
-            case 'application/hal+json':
-                $renderType = 'jsonhal';
-                break;
-            default:
-                $contentType = 'application/json';
-                $renderType = 'json';
-        }
+        $request = new Request();
 
-        $application = $this->em->getRepository(Application::class)->findOneBy(['id' => $id]);
-        $slug = $this->em->getRepository(Slug::class)->findOneBy(['application' => $application, 'slug'=>$slug]);
-        if ($slug == null) {
-            throw new NotFoundHttpException('Page not found');
-        }
-        $result = $slug->getTemplate();
+        /*@todo onderstaande verhaal moet uiteraard wel worden gedocumenteerd in redoc */
+        $variables = $request->query->all();
+        //$body = json_decode($request->getContent(), true); /*@todo hier zouden we eigenlijk ook xml moeten ondersteunen */
 
-        // now we need to overide the normal subscriber
-        $json = $this->serializer->serialize(
-            $result,
-            $renderType,
-            ['enable_max_depth' => true]
-        );
+        //$variables = array_merge($query, $body);
+
+        $template = $this->templating->createTemplate($result->getContent());
+        $response = $template->render($variables);
 
         $response = new Response(
-            $json,
+            $response,
             Response::HTTP_OK,
-            ['content-type' => $contentType]
+            ['content-type' => $result->getContentType()]
         );
 
         $event->setResponse($response);

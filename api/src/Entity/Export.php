@@ -8,6 +8,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Controller\DefaultController;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -28,6 +29,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "get",
  *          "put",
  *          "delete",
+ *         "render_export"={
+ *         "method"="GET",
+ *         "path"="/exports/{id}/render",
+ *         "controller"=DefaultController::class,
+ *     		},
  *          "get_change_logs"={
  *              "path"="/exports/{id}/change_log",
  *              "method"="get",
@@ -46,7 +52,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          }
  *     }
  * )
- * @ORM\Entity(repositoryClass=ExportRepository::class)
+ * @ORM\Entity()
  * @Gedmo\Loggable(logEntryClass="Conduction\CommonGroundBundle\Entity\ChangeLog")
  *
  * @ApiFilter(BooleanFilter::class)
@@ -55,6 +61,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiFilter(SearchFilter::class)
  * @ApiFilter(SearchFilter::class, properties={"id": "exact", "name": "partial", "description": "partial"})
  */
+
 class Export
 {
 
