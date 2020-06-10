@@ -37,53 +37,28 @@ class ExportSubscriber implements EventSubscriberInterface
     public function export(GetResponseForControllerResultEvent $event)
     {
         $result = $event->getControllerResult();
-        $id = $event->getRequest()->attributes->get('id');
-        $slug = $event->getRequest()->attributes->get('slug');
-        $contentType = $event->getRequest()->headers->get('accept');
-        if (!$contentType) {
-            $contentType = $event->getRequest()->headers->get('Accept');
-        }
         $method = $event->getRequest()->getMethod();
+        $route = $event->getRequest()->attributes->get('_route');
 
-        // Lats make sure that some one posts correctly
-        if (Request::METHOD_GET !== $method || $event->getRequest()->get('_route') != 'api_applications_get_page_on_slug_collection') {
+        if (!$result instanceof Template || $route != 'api_templates_render_template_item' || $method != 'POST') {
             return;
         }
 
-        // Lets set a return content type
-        switch ($contentType) {
-            case 'application/json':
-                $renderType = 'json';
-                break;
-            case 'application/ld+json':
-                $renderType = 'jsonld';
-                break;
-            case 'application/hal+json':
-                $renderType = 'jsonhal';
-                break;
-            default:
-                $contentType = 'application/json';
-                $renderType = 'json';
-        }
+        $request = new Request();
 
-        $application = $this->em->getRepository(Application::class)->findOneBy(['id' => $id]);
-        $slug = $this->em->getRepository(Slug::class)->findOneBy(['application' => $application, 'slug'=>$slug]);
-        if ($slug == null) {
-            throw new NotFoundHttpException('Page not found');
-        }
-        $result = $slug->getTemplate();
+        /*@todo onderstaande verhaal moet uiteraard wel worden gedocumenteerd in redoc */
+        $query = $request->query->all();
+        $body = json_decode($request->getContent(), true); /*@todo hier zouden we eigenlijk ook xml moeten ondersteunen */
 
-        // now we need to overide the normal subscriber
-        $json = $this->serializer->serialize(
-            $result,
-            $renderType,
-            ['enable_max_depth' => true]
-        );
+        $variables = array_merge($query, $body);
 
-        $response = new Response(
+        $template = $this->templating->createTemplate($result->getContent());
+        $reponse = $template->render($variables);
+
+        $reponse = new Response(
             $json,
             Response::HTTP_OK,
-            ['content-type' => $contentType]
+            ['content-type' => $result->getContentType()]
         );
 
         $event->setResponse($response);

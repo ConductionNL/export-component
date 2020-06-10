@@ -28,6 +28,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "get",
  *          "put",
  *          "delete",
+ *         "render_export"={
+ *         "method"="GET",
+ *         "path"="/exports/{id}/render",
+ *         "controller"=DefaultController::class,
+ *     		},
  *          "get_change_logs"={
  *              "path"="/exports/{id}/change_log",
  *              "method"="get",
@@ -46,7 +51,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          }
  *     }
  * )
- * @ORM\Entity(repositoryClass=ExportRepository::class)
+ * @ORM\Entity()
  * @Gedmo\Loggable(logEntryClass="Conduction\CommonGroundBundle\Entity\ChangeLog")
  *
  * @ApiFilter(BooleanFilter::class)
@@ -55,6 +60,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiFilter(SearchFilter::class)
  * @ApiFilter(SearchFilter::class, properties={"id": "exact", "name": "partial", "description": "partial"})
  */
+
 class Export
 {
 
