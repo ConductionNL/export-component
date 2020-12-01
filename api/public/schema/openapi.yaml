@@ -1,16 +1,16 @@
 openapi: 3.0.2
 info:
   title: 'Export component commonground'
-  version: V.0.1
+  version: V1.0
   description: |
     API Details
     - Component: Export component commonground
     - Reference: ec
     - Enviroment: dev
-    - Version: V.0.1
+    - Version: V1.0
     - Repository: [online](https://github.com/ConductionNL/export-component) / [zip](https://github.com/ConductionNL/export-component/archive/master.zip)
     - Docker Image: [online](https://hub.docker.com/repository/docker/conduction/ec-php) 
-    - Datamodel: [postman](/schema/ec.postman_collection.json) / [oas](/schema/openapi.yaml) / [pdf](/schema/datamodel.pdf) / [modelio (zip)](/schema/Datamodel_Modelio.zip) 
+    - Datamodel: [postman](schema/ec.postman_collection.json) / [oas](schema/openapi.yaml) / [pdf](schema/datamodel.pdf) / [modelio (zip)](schema/Datamodel_Modelio.zip) 
     
     'Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.'         
     
@@ -399,6 +399,15 @@ paths:
           schema:
             type: integer
             default: 1
+        -
+          name: limit
+          in: query
+          required: false
+          description: 'The number of items per page'
+          schema:
+            type: integer
+            default: 30
+            minimum: 0
         -
           name: Authorization
           description: 'The JWT of the entity performing the request'
@@ -1297,6 +1306,15 @@ paths:
             type: integer
             default: 1
         -
+          name: limit
+          in: query
+          required: false
+          description: 'The number of items per page'
+          schema:
+            type: integer
+            default: 30
+            minimum: 0
+        -
           name: Authorization
           description: 'The JWT of the entity performing the request'
           in: header
@@ -2157,6 +2175,15 @@ paths:
           schema:
             type: integer
             default: 1
+        -
+          name: limit
+          in: query
+          required: false
+          description: 'The number of items per page'
+          schema:
+            type: integer
+            default: 30
+            minimum: 0
         -
           name: Authorization
           description: 'The JWT of the entity performing the request'
@@ -3123,18 +3150,23 @@ components:
         route:
           description: 'The moment this request was created'
           type: string
+          nullable: true
         endpoint:
           description: 'The endpoint that the request was made to'
           type: string
+          nullable: true
         method:
           description: 'The method that was used'
           type: string
+          nullable: true
         accept:
           description: 'The contentType that was reqousted'
           type: string
+          nullable: true
         contentType:
           description: 'The contentType that was suplieds'
           type: string
+          nullable: true
         content:
           description: 'The moment this request was created'
           type: string
@@ -3142,6 +3174,7 @@ components:
         ip:
           description: 'The moment this request was created'
           type: string
+          nullable: true
         session:
           description: 'The moment this request was created'
           type: string
@@ -3253,18 +3286,23 @@ components:
         route:
           description: 'The moment this request was created'
           type: string
+          nullable: true
         endpoint:
           description: 'The endpoint that the request was made to'
           type: string
+          nullable: true
         method:
           description: 'The method that was used'
           type: string
+          nullable: true
         accept:
           description: 'The contentType that was reqousted'
           type: string
+          nullable: true
         contentType:
           description: 'The contentType that was suplieds'
           type: string
+          nullable: true
         content:
           description: 'The moment this request was created'
           type: string
@@ -3272,6 +3310,7 @@ components:
         ip:
           description: 'The moment this request was created'
           type: string
+          nullable: true
         session:
           description: 'The moment this request was created'
           type: string
@@ -3638,59 +3677,6 @@ definitions:
     required:
       - name
       - content
-  ChangeLog-read:
-    properties:
-      id:
-        description: 'The UUID identifier of this object'
-        type: string
-        example: e2984465-190a-4562-829e-a8cca81aa35d
-        format: uuid
-      note:
-        description: 'A note conserning this log lin'
-        type: string
-        example: 'This log line is suspicius'
-        maxLength: 2555
-      action:
-        description: ''
-        type: string
-      objectId:
-        description: ''
-        type: string
-      objectClass:
-        description: ''
-        type: string
-      version:
-        description: ''
-        type: int
-      data:
-        description: ''
-        type: array
-      username:
-        description: ''
-        type: string
-      session:
-        description: 'The moment this request was created'
-        type: string
-        maxLength: 255
-      dateCreated:
-        description: 'The moment this request was created'
-        type: string
-        format: date-time
-        example: '2020-06-10 09:15:56'
-      dateModified:
-        description: 'The moment this request last Modified'
-        type: string
-        format: date-time
-        example: '2020-06-10 09:15:56'
-    required: []
-  ChangeLog-write:
-    properties:
-      note:
-        description: 'A note conserning this log lin'
-        type: string
-        example: 'This log line is suspicius'
-        maxLength: 2555
-    required: []
   AuditTrail-read:
     properties:
       id:
@@ -3795,12 +3781,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-06-10 09:15:56'
+        example: '2020-12-01 10:12:56'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-06-10 09:15:56'
+        example: '2020-12-01 10:12:56'
     required: []
   AuditTrail-write:
     properties:
@@ -3848,12 +3834,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-06-11 04:49:00'
+        example: '2020-12-01 10:12:56'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-06-11 04:49:00'
+        example: '2020-12-01 10:12:56'
     required: []
   ChangeLog-write:
     properties:
