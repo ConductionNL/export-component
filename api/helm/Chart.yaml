@@ -7,6 +7,6 @@ home: ec.zuid-drecht.nl
 icon: ec.zuid-drecht.nl
 dependencies:
     - name: postgresql
-      version: 8.6.4
-      repository: https://kubernetes-charts.storage.googleapis.com/
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.1.1
       condition: postgresql.enabled
