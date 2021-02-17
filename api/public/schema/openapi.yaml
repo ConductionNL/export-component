@@ -1,18 +1,18 @@
 openapi: 3.0.2
 info:
-  title: 'Export component commonground'
+  title: ''
   version: V1.0
   description: |
     API Details
-    - Component: Export component commonground
-    - Reference: ec
+    - Component: 
+    - Reference: export-component
     - Enviroment: dev
     - Version: V1.0
     - Repository: [online](https://github.com/ConductionNL/export-component) / [zip](https://github.com/ConductionNL/export-component/archive/master.zip)
-    - Docker Image: [online](https://hub.docker.com/repository/docker/conduction/ec-php) 
-    - Datamodel: [postman](schema/ec.postman_collection.json) / [oas](schema/openapi.yaml) / [pdf](schema/datamodel.pdf) / [modelio (zip)](schema/Datamodel_Modelio.zip) 
+    - Docker Image: [online]() 
+    - Datamodel: [postman](schema/export-component.postman_collection.json) / [oas](schema/openapi.yaml) / [pdf](schema/datamodel.pdf) / [modelio (zip)](schema/Datamodel_Modelio.zip) 
     
-    'Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.'         
+    Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.         
     
 paths:
   /audit_trails:
@@ -3781,12 +3781,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-12-01 10:12:56'
+        example: '2021-02-17 22:29:28'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-12-01 10:12:56'
+        example: '2021-02-17 22:29:28'
     required: []
   AuditTrail-write:
     properties:
@@ -3834,12 +3834,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-12-01 10:12:56'
+        example: '2021-02-17 22:29:28'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-12-01 10:12:56'
+        example: '2021-02-17 22:29:28'
     required: []
   ChangeLog-write:
     properties:
@@ -3887,7 +3887,7 @@ host: irc.zaakonline.nl
 servers:
   -
     name: zuid-drecht.nl
-    url: ec.dev.zuid-drecht.nl
+    url: export-component.dev.zuid-drecht.nl
 externalDocs:
   -
     description: 'OAS Documentatie'

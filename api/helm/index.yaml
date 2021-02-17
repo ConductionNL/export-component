@@ -3,13 +3,26 @@ entries:
   ec:
   - apiVersion: v1
     appVersion: V1.0
-    created: "2020-12-01T10:21:48.9396356Z"
-    description: '&#039;Naast deze JSON rest API is er ook een [graphql](/graphql)
-      interface beschikbaar.&#039;'
-    digest: 9799685f62decf742ff5986c2308b0a01db219cd9bfaef73f765ac090907c77f
+    created: "2021-02-17T22:28:25.7483362Z"
+    description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface
+      beschikbaar.
+    digest: 022df0f20e5199969372b2fd9467437cc3b3331141b57c9be1b73cf290426da7
     home: ec.zuid-drecht.nl
     icon: ec.zuid-drecht.nl
+    keywords:
+    - commonground
+    - haven
+    - nlx
+    - component
+    maintainers:
+    - email: ruben@conduction.nl
+      name: Ruben van der Linde
+    - email: info@conduction.nl
+      name: Conduction
     name: ec
+    sources:
+    - https://commonground.conduction.nl/
+    - https://www.commonground.nl/
     urls:
     - ec-0.1.0.tgz
     version: 0.1.0
@@ -18,7 +31,7 @@ entries:
       category: Database
     apiVersion: v2
     appVersion: 11.10.0
-    created: "2020-12-01T10:21:48.9545327Z"
+    created: "2021-02-17T22:28:25.7692515Z"
     dependencies:
     - name: common
       repository: https://charts.bitnami.com/bitnami
@@ -47,4 +60,4 @@ entries:
     urls:
     - charts/postgresql-10.1.1.tgz
     version: 10.1.1
-generated: "2020-12-01T10:21:48.926837Z"
+generated: "2021-02-17T22:28:25.7275779Z"
