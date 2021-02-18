@@ -1,4 +1,4 @@
-# ec
+# export-component
 
 Description
 ----
